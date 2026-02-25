@@ -27,9 +27,7 @@
 - Assisting staff with flow management
 - Providing quick access to clinic resources and patient data
 
-This concept aligns with modern clinic workflow management systems that reduce wait times and improve throughput. :contentReference[oaicite:1]{index=1}
-
-> You can edit this section with specifics like: *What problem the app solves*, *which users it serves*, and *how it improves on previous versions*.
+This concept aligns with modern clinic workflow management systems that reduce wait times and improve throughput.
 
 ---
 
