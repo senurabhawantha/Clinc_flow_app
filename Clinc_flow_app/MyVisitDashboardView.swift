@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MyVisitView: View {
+struct MyVisitDashboardView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             ScrollView {
@@ -186,7 +186,7 @@ struct CustomTabBar: View {
         HStack {
             TabItem(icon: "house.fill", label: "Home", isSelected: false)
             TabItem(icon: "list.bullet.below.rectangle", label: "My Visit", isSelected: true)
-            TabItem(icon: "clock.arrow.circlepath", label: "History", isSelected: false)
+            TabItem(icon: "map", label: "Map", isSelected: false)
             TabItem(icon: "person.fill", label: "Profile", isSelected: false)
         }
         .padding(.top, 12)
@@ -215,5 +215,5 @@ struct TabItem: View {
 
 
 #Preview {
-    MyVisitView()
+    MyVisitDashboardView()
 }

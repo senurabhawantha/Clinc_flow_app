@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SetUpVisitView: View {
+struct VisitSetUpView: View {
     @State private var visitCode: String = ""
     @Environment(\.dismiss) var dismiss
     
@@ -157,5 +157,5 @@ extension Color {
 }
 
 #Preview {
-    SetUpVisitView()
+    VisitSetUpView()
 }

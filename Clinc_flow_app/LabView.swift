@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct VisitDetailsView: View {
+struct LabView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             Color(red: 246/255, green: 248/255, blue: 250/255)
@@ -227,5 +227,5 @@ struct VisitDetailsView: View {
 }
 
 #Preview {
-    VisitDetailsView()
+    LabView()
 }

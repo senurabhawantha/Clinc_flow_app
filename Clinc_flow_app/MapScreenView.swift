@@ -1,3 +1,10 @@
+//
+//  MapScreenView.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
+
 import SwiftUI
 
 struct MapScreenView: View {

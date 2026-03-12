@@ -4,6 +4,12 @@
 //
 //  Created by ITEDP on 2026-02-15.
 //
+//
+//  ContentView.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-02-15.
+//
 
 import SwiftUI
 
@@ -68,62 +74,9 @@ struct ContentView: View {
                 .foregroundColor(Color(red: 0.11, green: 0.93, blue: 0.84))
             }
             .padding(.horizontal, 24)
-            
-            // MARK: - Accessibility Section
-            VStack(alignment: .leading, spacing: 12) {
-                Text("ACCESSIBILITY")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.gray)
-                    .padding(.leading, 8)
-                
-                VStack(spacing: 0) {
-                    SettingsRow(icon: "textformat.size", title: "Text Size", value: "Default", iconBg: Color(red: 0.9, green: 1.0, blue: 0.98))
-                    
-                    Divider().padding(.leading, 50)
-                    
-                    SettingsRow(icon: "globe", title: "Language", value: "English", iconBg: Color(red: 0.9, green: 1.0, blue: 0.98))
-                }
-                .background(Color.white)
-                .cornerRadius(16)
-            }
-            .padding(.top, 40)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 20)
+            .padding(.bottom, 40)
         }
         .background(Color(white: 0.98).edgesIgnoringSafeArea(.all))
-    }
-}
-
-// MARK: - Reusable Row Component
-struct SettingsRow: View {
-    let icon: String
-    let title: String
-    let value: String
-    let iconBg: Color
-    
-    var body: some View {
-        HStack(spacing: 16) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(iconBg)
-                    .frame(width: 36, height: 36)
-                Image(systemName: icon)
-                    .foregroundColor(Color(red: 0.11, green: 0.93, blue: 0.84))
-            }
-            
-            Text(title)
-                .font(.system(size: 16, weight: .medium))
-            
-            Spacer()
-            
-            Text(value)
-                .foregroundColor(.gray)
-            
-            Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .bold))
-                .foregroundColor(.gray.opacity(0.5))
-        }
-        .padding()
     }
 }
 

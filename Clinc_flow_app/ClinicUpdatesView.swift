@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UpdatesView: View {
+struct ClinicUpdatesView: View {
     let categories = ["All", "Queue", "Directions", "Reminders"]
     @State private var selectedCategory = "All"
     
@@ -227,5 +227,5 @@ extension Color {
 }
 
 #Preview {
-    UpdatesView()
+    ClinicUpdatesView()
 }

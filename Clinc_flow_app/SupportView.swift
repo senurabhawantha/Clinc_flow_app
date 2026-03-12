@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HelpView: View {
+struct SupportView: View {
     @State private var searchText = ""
     
     var body: some View {
@@ -155,5 +155,5 @@ struct FAQBlock: View {
 
 // MARK: - Preview
 #Preview {
-    HelpView()
+    SupportView()
 }
