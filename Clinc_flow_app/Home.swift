@@ -4,6 +4,13 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+//
+//  Home.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
+
 import SwiftUI
 
 struct Home: View {
@@ -12,6 +19,9 @@ struct Home: View {
     @State private var navigateToMapScreenView = false
     @State private var navigateToBookAppointmentView = false
     @State private var navigateToClinicUpdatesView = false
+    
+    @State private var navigateToMyVisitDashboardView = false
+    @State private var navigateToProfileView = false
     
     var body: some View {
         NavigationStack {
@@ -155,6 +165,7 @@ struct Home: View {
                             
                             Spacer(minLength: 100)
                             
+                            // Hidden Navigation Links
                             NavigationLink(destination: VisitSetUpView(), isActive: $navigateToVisitSetupView) {
                                 EmptyView()
                             }
@@ -170,12 +181,30 @@ struct Home: View {
                             NavigationLink(destination: ClinicUpdatesView(), isActive: $navigateToClinicUpdatesView) {
                                 EmptyView()
                             }
+                            
+                            NavigationLink(destination: MyVisitDashboardView(), isActive: $navigateToMyVisitDashboardView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: ProfileView(), isActive: $navigateToProfileView) {
+                                EmptyView()
+                            }
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 18)
                     }
                     
-                    BottomTabBar()
+                    BottomTabBar(
+                        onVisitsTap: {
+                            navigateToMyVisitDashboardView = true
+                        },
+                        onMapTap: {
+                            navigateToMapScreenView = true
+                        },
+                        onProfileTap: {
+                            navigateToProfileView = true
+                        }
+                    )
                 }
             }
             .navigationBarBackButtonHidden(true)
@@ -354,15 +383,33 @@ struct HealthUpdateRow: View {
 
 // MARK: - Bottom Tab Bar
 struct BottomTabBar: View {
+    var onVisitsTap: () -> Void
+    var onMapTap: () -> Void
+    var onProfileTap: () -> Void
+    
     var body: some View {
         HStack {
-            TabBarItem(icon: "house", title: "Home", isSelected: true)
+            TabBarItem(icon: "house", title: "Home", isSelected: true) {
+                // Already on Home
+            }
+            
             Spacer()
-            TabBarItem(icon: "calendar", title: "Visits", isSelected: false)
+            
+            TabBarItem(icon: "calendar", title: "Visits", isSelected: false) {
+                onVisitsTap()
+            }
+            
             Spacer()
-            TabBarItem(icon: "map", title: "Map", isSelected: false)
+            
+            TabBarItem(icon: "map", title: "Map", isSelected: false) {
+                onMapTap()
+            }
+            
             Spacer()
-            TabBarItem(icon: "person", title: "Profile", isSelected: false)
+            
+            TabBarItem(icon: "person", title: "Profile", isSelected: false) {
+                onProfileTap()
+            }
         }
         .padding(.horizontal, 28)
         .padding(.top, 14)
@@ -381,25 +428,29 @@ struct TabBarItem: View {
     let icon: String
     let title: String
     let isSelected: Bool
+    let action: () -> Void
     
     var body: some View {
-        VStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.system(size: 22, weight: .medium))
-                .foregroundColor(
-                    isSelected
-                    ? Color(red: 0.12, green: 0.86, blue: 0.82)
-                    : Color(red: 0.62, green: 0.67, blue: 0.76)
-                )
-            
-            Text(title)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(
-                    isSelected
-                    ? Color(red: 0.12, green: 0.86, blue: 0.82)
-                    : Color(red: 0.62, green: 0.67, blue: 0.76)
-                )
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(
+                        isSelected
+                        ? Color(red: 0.12, green: 0.86, blue: 0.82)
+                        : Color(red: 0.62, green: 0.67, blue: 0.76)
+                    )
+                
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(
+                        isSelected
+                        ? Color(red: 0.12, green: 0.86, blue: 0.82)
+                        : Color(red: 0.62, green: 0.67, blue: 0.76)
+                    )
+            }
         }
+        .buttonStyle(.plain)
     }
 }
 
