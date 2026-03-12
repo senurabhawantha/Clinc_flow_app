@@ -4,137 +4,181 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
-
 import SwiftUI
 
 struct Home: View {
+    
+    @State private var navigateToVisitSetupView = false
+    @State private var navigateToMapScreenView = false
+    @State private var navigateToBookAppointmentView = false
+    @State private var navigateToClinicUpdatesView = false
+    
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(.systemGray6)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 24) {
-                        
-                        // MARK: - Header
-                        HStack(alignment: .top) {
-                            HStack(spacing: 14) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color(red: 0.95, green: 0.78, blue: 0.67))
-                                        .frame(width: 56, height: 56)
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .font(.system(size: 22))
-                                        .foregroundColor(.white)
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Good morning,")
-                                        .font(.system(size: 17, weight: .medium))
-                                        .foregroundColor(Color.gray)
-                                    
-                                    Text("Kevin Perera")
-                                        .font(.system(size: 28, weight: .bold))
-                                        .foregroundColor(Color(red: 0.12, green: 0.15, blue: 0.24))
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            ZStack(alignment: .topTrailing) {
-                                Image(systemName: "bell")
-                                    .font(.system(size: 24, weight: .medium))
-                                    .foregroundColor(Color(red: 0.12, green: 0.15, blue: 0.24))
-                                
-                                Circle()
-                                    .fill(Color(red: 0.14, green: 0.86, blue: 0.82))
-                                    .frame(width: 12, height: 12)
-                                    .offset(x: 5, y: -4)
-                            }
-                            .padding(.top, 8)
-                        }
-                        .padding(.top, 12)
-                        
-                        // MARK: - Quick Actions
-                        Text("QUICK ACTIONS")
-                            .font(.system(size: 15, weight: .bold))
-                            .tracking(2)
-                            .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
-                        
-                        VStack(spacing: 16) {
-                            HStack(spacing: 16) {
-                                QuickActionCard(
-                                    icon: "calendar",
-                                    title: "Check-in",
-                                    subtitle: "Schedule an\nappointment"
-                                )
-                                
-                                QuickActionCard(
-                                    icon: "map",
-                                    title: "Find Clinic",
-                                    subtitle: "Locate nearest center"
-                                )
-                            }
-                            
-                            HStack(spacing: 16) {
-                                QuickActionCard(
-                                    icon: "video.fill",
-                                    title: "Telehealth",
-                                    subtitle: "Consult via video call"
-                                )
-                                
-                                QuickActionCard(
-                                    icon: "doc.text",
-                                    title: "Updates",
-                                    subtitle: "View health history"
-                                )
-                            }
-                        }
-                        
-                        // MARK: - Upcoming Appointment
-                        Text("UPCOMING APPOINTMENT")
-                            .font(.system(size: 15, weight: .bold))
-                            .tracking(2)
-                            .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
-                            .padding(.top, 8)
-                        
-                        AppointmentCard()
-                        
-                        // MARK: - Health Updates
-                        Text("HEALTH UPDATES")
-                            .font(.system(size: 15, weight: .bold))
-                            .tracking(2)
-                            .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
-                            .padding(.top, 8)
-                        
-                        VStack(spacing: 14) {
-                            HealthUpdateRow(
-                                icon: "flask",
-                                iconBg: Color(red: 0.91, green: 0.94, blue: 1.0),
-                                iconColor: Color.blue,
-                                title: "Your lab results are ready",
-                                subtitle: "Routine blood panel • 2 hours ago"
-                            )
-                            
-                            HealthUpdateRow(
-                                icon: "heart",
-                                iconBg: Color(red: 1.0, green: 0.93, blue: 0.93),
-                                iconColor: Color.red,
-                                title: "Tips for a healthy heart",
-                                subtitle: "Health blog • Yesterday"
-                            )
-                        }
-                        
-                        Spacer(minLength: 100)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 18)
-                }
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Color(.systemGray6)
+                    .ignoresSafeArea()
                 
-                BottomTabBar()
+                VStack(spacing: 0) {
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 24) {
+                            
+                            // MARK: - Header
+                            HStack(alignment: .top) {
+                                HStack(spacing: 14) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color(red: 0.95, green: 0.78, blue: 0.67))
+                                            .frame(width: 56, height: 56)
+                                        
+                                        Image(systemName: "doc.text.fill")
+                                            .font(.system(size: 22))
+                                            .foregroundColor(.white)
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Good morning,")
+                                            .font(.system(size: 17, weight: .medium))
+                                            .foregroundColor(Color.gray)
+                                        
+                                        Text("Kevin Perera")
+                                            .font(.system(size: 28, weight: .bold))
+                                            .foregroundColor(Color(red: 0.12, green: 0.15, blue: 0.24))
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                ZStack(alignment: .topTrailing) {
+                                    Image(systemName: "bell")
+                                        .font(.system(size: 24, weight: .medium))
+                                        .foregroundColor(Color(red: 0.12, green: 0.15, blue: 0.24))
+                                    
+                                    Circle()
+                                        .fill(Color(red: 0.14, green: 0.86, blue: 0.82))
+                                        .frame(width: 12, height: 12)
+                                        .offset(x: 5, y: -4)
+                                }
+                                .padding(.top, 8)
+                            }
+                            .padding(.top, 12)
+                            
+                            // MARK: - Quick Actions
+                            Text("QUICK ACTIONS")
+                                .font(.system(size: 15, weight: .bold))
+                                .tracking(2)
+                                .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
+                            
+                            VStack(spacing: 16) {
+                                HStack(spacing: 16) {
+                                    Button(action: {
+                                        navigateToVisitSetupView = true
+                                    }) {
+                                        QuickActionCard(
+                                            icon: "calendar",
+                                            title: "Check-in",
+                                            subtitle: "Schedule an\nappointment"
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                    
+                                    Button(action: {
+                                        navigateToMapScreenView = true
+                                    }) {
+                                        QuickActionCard(
+                                            icon: "map",
+                                            title: "Find Clinic",
+                                            subtitle: "Locate nearest center"
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                
+                                HStack(spacing: 16) {
+                                    Button(action: {
+                                        navigateToBookAppointmentView = true
+                                    }) {
+                                        QuickActionCard(
+                                            icon: "video.fill",
+                                            title: "Telehealth",
+                                            subtitle: "Consult via video call"
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                    
+                                    Button(action: {
+                                        navigateToClinicUpdatesView = true
+                                    }) {
+                                        QuickActionCard(
+                                            icon: "doc.text",
+                                            title: "Updates",
+                                            subtitle: "View health history"
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            
+                            // MARK: - Upcoming Appointment
+                            Text("UPCOMING APPOINTMENT")
+                                .font(.system(size: 15, weight: .bold))
+                                .tracking(2)
+                                .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
+                                .padding(.top, 8)
+                            
+                            AppointmentCard()
+                            
+                            // MARK: - Health Updates
+                            Text("HEALTH UPDATES")
+                                .font(.system(size: 15, weight: .bold))
+                                .tracking(2)
+                                .foregroundColor(Color(red: 0.43, green: 0.50, blue: 0.63))
+                                .padding(.top, 8)
+                            
+                            VStack(spacing: 14) {
+                                HealthUpdateRow(
+                                    icon: "flask",
+                                    iconBg: Color(red: 0.91, green: 0.94, blue: 1.0),
+                                    iconColor: Color.blue,
+                                    title: "Your lab results are ready",
+                                    subtitle: "Routine blood panel • 2 hours ago"
+                                )
+                                
+                                HealthUpdateRow(
+                                    icon: "heart",
+                                    iconBg: Color(red: 1.0, green: 0.93, blue: 0.93),
+                                    iconColor: Color.red,
+                                    title: "Tips for a healthy heart",
+                                    subtitle: "Health blog • Yesterday"
+                                )
+                            }
+                            
+                            Spacer(minLength: 100)
+                            
+                            NavigationLink(destination: VisitSetUpView(), isActive: $navigateToVisitSetupView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: MapScreenView(), isActive: $navigateToMapScreenView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: BookAppointmentView(), isActive: $navigateToBookAppointmentView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: ClinicUpdatesView(), isActive: $navigateToClinicUpdatesView) {
+                                EmptyView()
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 18)
+                    }
+                    
+                    BottomTabBar()
+                }
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
