@@ -4,122 +4,156 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+//
+//  Category.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
+
 import SwiftUI
 
 struct Category: View {
+    @State private var navigateToMyVisitDashboard = false
+    @State private var navigateToLabView = false
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        GeometryReader { geo in
-            let horizontalPadding: CGFloat = 16
-            let cardHeight: CGFloat = 92
-            let bannerHeight: CGFloat = min(210, geo.size.height * 0.26)
-            
-            ZStack {
-                Color(red: 0.96, green: 0.97, blue: 0.98)
-                    .ignoresSafeArea()
+        NavigationStack {
+            GeometryReader { geo in
+                let horizontalPadding: CGFloat = 16
+                let cardHeight: CGFloat = 92
+                let bannerHeight: CGFloat = min(210, geo.size.height * 0.26)
                 
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 18) {
-                        
-                        // MARK: - Header
-                        ZStack {
-                            Text("Select Service")
-                                .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
+                ZStack {
+                    Color(red: 0.96, green: 0.97, blue: 0.98)
+                        .ignoresSafeArea()
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 18) {
                             
-                            HStack {
-                                Button(action: {}) {
-                                    Image(systemName: "chevron.left")
-                                        .font(.system(size: 22, weight: .semibold))
-                                        .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
-                                        .frame(width: 36, height: 36)
+                            // MARK: - Header
+                            ZStack {
+                                Text("Select Service")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
+                                
+                                HStack {
+                                    Button(action: {
+                                        dismiss()
+                                    }) {
+                                        Image(systemName: "chevron.left")
+                                            .font(.system(size: 22, weight: .semibold))
+                                            .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
+                                            .frame(width: 36, height: 36)
+                                    }
+                                    
+                                    Spacer()
                                 }
+                            }
+                            .padding(.top, 6)
+                            
+                            // MARK: - Search Bar
+                            HStack(spacing: 10) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(Color(red: 0.60, green: 0.66, blue: 0.76))
+                                
+                                Text("Search clinic services")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(Color(red: 0.45, green: 0.52, blue: 0.64))
                                 
                                 Spacer()
                             }
-                        }
-                        .padding(.top, 6)
-                        
-                        // MARK: - Search Bar
-                        HStack(spacing: 10) {
-                            Image(systemName: "magnifyingglass")
-                                .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(Color(red: 0.60, green: 0.66, blue: 0.76))
+                            .padding(.horizontal, 14)
+                            .frame(height: 54)
+                            .background(Color(red: 0.92, green: 0.94, blue: 0.97))
+                            .cornerRadius(14)
                             
-                            Text("Search clinic services")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(Color(red: 0.45, green: 0.52, blue: 0.64))
+                            // MARK: - Categories Title
+                            HStack(alignment: .center) {
+                                Text("Categories")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
+                                
+                                Spacer()
+                                
+                                Button(action: {}) {
+                                    Text("View all")
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(Color(red: 0.11, green: 0.84, blue: 0.82))
+                                }
+                            }
+                            .padding(.top, 4)
                             
-                            Spacer()
-                        }
-                        .padding(.horizontal, 14)
-                        .frame(height: 54)
-                        .background(Color(red: 0.92, green: 0.94, blue: 0.97))
-                        .cornerRadius(14)
-                        
-                        // MARK: - Categories Title
-                        HStack(alignment: .center) {
-                            Text("Categories")
-                                .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(Color(red: 0.09, green: 0.13, blue: 0.22))
+                            // MARK: - Category List
+                            VStack(spacing: 14) {
+                                Button(action: {
+                                    navigateToMyVisitDashboard = true
+                                }) {
+                                    CategoryRow(
+                                        icon: "stethoscope",
+                                        title: "General OPD",
+                                        subtitle: "Routine checkups",
+                                        height: cardHeight
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                
+                                Button(action: {
+                                    navigateToLabView = true
+                                }) {
+                                    CategoryRow(
+                                        icon: "cross.case.fill",
+                                        title: "Laboratory",
+                                        subtitle: "Blood tests & diagnostics",
+                                        height: cardHeight
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                
+                                CategoryRow(
+                                    icon: "cross.case",
+                                    title: "Radiology",
+                                    subtitle: "X-ray, MRI & Imaging",
+                                    height: cardHeight
+                                )
+                                
+                                CategoryRow(
+                                    icon: "capsule",
+                                    title: "Pharmacy",
+                                    subtitle: "Prescriptions & health supplies",
+                                    height: cardHeight
+                                )
+                                
+                                CategoryRow(
+                                    icon: "cross.case.fill",
+                                    title: "Specialist",
+                                    subtitle: "Expert medical consultants",
+                                    height: cardHeight
+                                )
+                            }
                             
-                            Spacer()
+                            // MARK: - Banner
+                            WellnessBanner(height: bannerHeight)
+                                .padding(.top, 6)
                             
-                            Button(action: {}) {
-                                Text("View all")
-                                    .font(.system(size: 15, weight: .semibold))
-                                    .foregroundColor(Color(red: 0.11, green: 0.84, blue: 0.82))
+                            NavigationLink(destination: MyVisitDashboardView(), isActive: $navigateToMyVisitDashboard) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: LabView(), isActive: $navigateToLabView) {
+                                EmptyView()
                             }
                         }
-                        .padding(.top, 4)
-                        
-                        // MARK: - Category List
-                        VStack(spacing: 14) {
-                            CategoryRow(
-                                icon: "stethoscope",
-                                title: "General OPD",
-                                subtitle: "Routine checkups",
-                                height: cardHeight
-                            )
-                            
-                            CategoryRow(
-                                icon: "cross.case.fill",
-                                title: "Laboratory",
-                                subtitle: "Blood tests & diagnostics",
-                                height: cardHeight
-                            )
-                            
-                            CategoryRow(
-                                icon: "cross.case",
-                                title: "Radiology",
-                                subtitle: "X-ray, MRI & Imaging",
-                                height: cardHeight
-                            )
-                            
-                            CategoryRow(
-                                icon: "capsule",
-                                title: "Pharmacy",
-                                subtitle: "Prescriptions & health supplies",
-                                height: cardHeight
-                            )
-                            
-                            CategoryRow(
-                                icon: "cross.case.fill",
-                                title: "Specialist",
-                                subtitle: "Expert medical consultants",
-                                height: cardHeight
-                            )
-                        }
-                        
-                        // MARK: - Banner
-                        WellnessBanner(height: bannerHeight)
-                            .padding(.top, 6)
+                        .padding(.horizontal, horizontalPadding)
+                        .padding(.top, 10)
+                        .padding(.bottom, 24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.top, 10)
-                    .padding(.bottom, 24)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
