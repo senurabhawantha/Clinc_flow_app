@@ -4,87 +4,66 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
-
 import SwiftUI
 
 struct PaymentView: View {
+    
     var body: some View {
         ZStack {
-            Color(red: 0.96, green: 0.97, blue: 0.98)
+            Color(red: 245/255, green: 246/255, blue: 248/255)
                 .ignoresSafeArea()
-
-            VStack(alignment: .leading, spacing: 0) {
-                topBar
-
-                Text("Final Step")
-                    .font(.system(size: 34, weight: .bold))
-                    .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
-                    .padding(.top, 28)
-                    .padding(.horizontal, 24)
-
-                paymentCard
-                    .padding(.top, 28)
-                    .padding(.horizontal, 24)
-
-                Text("Services")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
-                    .padding(.top, 36)
-                    .padding(.horizontal, 24)
-
-                Divider()
-                    .background(Color.gray.opacity(0.25))
-                    .padding(.top, 28)
-                    .padding(.horizontal, 24)
-
-                serviceRow(
-                    icon: "cross.case.fill",
-                    title: "Consultation",
-                    price: "$30.00"
-                )
-                .padding(.top, 28)
-                .padding(.horizontal, 24)
-
-                Divider()
-                    .background(Color.gray.opacity(0.20))
-                    .padding(.top, 22)
-                    .padding(.horizontal, 24)
-
-                serviceRow(
-                    icon: "testtube.2",
-                    title: "Lab Test",
-                    price: "$15.00"
-                )
-                .padding(.top, 22)
-                .padding(.horizontal, 24)
-
-                Spacer()
-
-                applePayButton
-                    .padding(.horizontal, 24)
-
-                Text("Your transaction is secure and encrypted with\nSSL technology.")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(red: 0.58, green: 0.64, blue: 0.74))
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 22)
-
-                HStack {
-                    Spacer()
-                    Text("Flow Demo Only")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color.gray.opacity(0.35))
-                        .padding(.trailing, 28)
-                        .padding(.top, 8)
+            
+            VStack(spacing: 0) {
+                headerView
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Final Step")
+                            .font(.system(size: 34, weight: .bold))
+                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                            .padding(.top, 26)
+                        
+                        paymentCard
+                            .padding(.top, 26)
+                        
+                        Text("Services")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                            .padding(.top, 48)
+                        
+                        Divider()
+                            .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                            .padding(.top, 22)
+                        
+                        serviceRow(
+                            icon: "cross.case",
+                            title: "Consultation",
+                            amount: "$30.00"
+                        )
+                        .padding(.top, 22)
+                        
+                        Divider()
+                            .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                            .padding(.top, 22)
+                        
+                        serviceRow(
+                            icon: "testtube.2",
+                            title: "Lab Test",
+                            amount: "$15.00"
+                        )
+                        .padding(.top, 22)
+                        
+                        Spacer(minLength: 180)
+                    }
+                    .padding(.horizontal, 16)
                 }
-
-                Spacer().frame(height: 18)
+                
+                bottomSection
             }
         }
     }
-
-    private var topBar: some View {
+    
+    private var headerView: some View {
         ZStack {
             HStack {
                 Button(action: {
@@ -92,107 +71,134 @@ struct PaymentView: View {
                 }) {
                     Image(systemName: "arrow.left")
                         .font(.system(size: 24, weight: .medium))
-                        .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
+                        .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
                 }
-
+                
                 Spacer()
             }
-
+            
             Text("Payment")
-                .font(.system(size: 20, weight: .bold))
-                .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 18)
+        .padding(.horizontal, 16)
+        .frame(height: 56)
+        .padding(.top, 6)
     }
-
+    
     private var paymentCard: some View {
         VStack(spacing: 0) {
-            // Replace "clinic_room" with your asset image name
-            Image("clinic_room")
+            Image("payment_hallway")
                 .resizable()
                 .scaledToFill()
-                .frame(height: 240)
+                .frame(height: 170)
                 .frame(maxWidth: .infinity)
                 .clipped()
-
-            VStack(alignment: .leading, spacing: 14) {
+            
+            VStack(alignment: .leading, spacing: 0) {
                 Text("Total Amount: $45.00")
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
-
+                    .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                    .padding(.top, 22)
+                
                 HStack {
                     Text("Invoice #CF-9921")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color(red: 0.10, green: 0.86, blue: 0.83))
-
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(Color(red: 26/255, green: 221/255, blue: 211/255))
+                    
                     Spacer()
-
+                    
                     Text("PENDING")
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(Color(red: 0.10, green: 0.86, blue: 0.83))
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(Color(red: 26/255, green: 221/255, blue: 211/255))
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-                            Capsule()
-                                .fill(Color(red: 0.10, green: 0.86, blue: 0.83).opacity(0.12))
-                        )
+                        .frame(height: 32)
+                        .background(Color(red: 228/255, green: 245/255, blue: 243/255))
+                        .clipShape(Capsule())
                 }
+                .padding(.top, 12)
+                .padding(.bottom, 22)
             }
-            .padding(20)
+            .padding(.horizontal, 20)
             .background(Color.white)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(Color.black.opacity(0.04), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color(red: 225/255, green: 231/255, blue: 238/255), lineWidth: 1)
         )
-        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
     }
-
-    private func serviceRow(icon: String, title: String, price: String) -> some View {
-        HStack(spacing: 18) {
+    
+    private func serviceRow(icon: String, title: String, amount: String) -> some View {
+        HStack(spacing: 16) {
             ZStack {
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color(red: 0.10, green: 0.86, blue: 0.83).opacity(0.12))
-                    .frame(width: 72, height: 72)
-
+                    .fill(Color(red: 226/255, green: 245/255, blue: 242/255))
+                    .frame(width: 52, height: 52)
+                
                 Image(systemName: icon)
-                    .font(.system(size: 26, weight: .semibold))
-                    .foregroundColor(Color(red: 0.10, green: 0.86, blue: 0.83))
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(Color(red: 26/255, green: 221/255, blue: 211/255))
             }
-
+            
             Text(title)
-                .font(.system(size: 22, weight: .medium))
-                .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
-
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+            
             Spacer()
-
-            Text(price)
-                .font(.system(size: 22, weight: .bold))
-                .foregroundColor(Color(red: 0.03, green: 0.07, blue: 0.18))
+            
+            Text(amount)
+                .font(.system(size: 19, weight: .bold))
+                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
         }
     }
-
-    private var applePayButton: some View {
-        Button(action: {
-            // Apple Pay action
-        }) {
-            HStack(spacing: 10) {
-                Text("")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.white)
-
-                Text("Pay with Apple Pay")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.white)
+    
+    private var bottomSection: some View {
+        VStack(spacing: 0) {
+            Button(action: {
+                // Apple Pay action
+            }) {
+                HStack(spacing: 10) {
+                    Text("iOS")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    Text("Pay with Apple Pay")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 72)
+                .background(Color(red: 8/255, green: 22/255, blue: 58/255))
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(
+                    color: Color.black.opacity(0.12),
+                    radius: 12,
+                    x: 0,
+                    y: 6
+                )
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 78)
-            .background(Color(red: 0.02, green: 0.07, blue: 0.20))
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 6)
+            .padding(.horizontal, 26)
+            .padding(.top, 12)
+            
+            Text("Your transaction is secure and encrypted with\nSSL technology.")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(Color(red: 150/255, green: 162/255, blue: 182/255))
+                .multilineTextAlignment(.center)
+                .padding(.top, 22)
+            
+            HStack {
+                Spacer()
+                
+                Text("Clinical Flow")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(Color(red: 218/255, green: 221/255, blue: 226/255))
+            }
+            .padding(.horizontal, 22)
+            .padding(.top, 6)
+            .padding(.bottom, 16)
         }
+        .background(Color(red: 245/255, green: 246/255, blue: 248/255))
     }
 }
 
