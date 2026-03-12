@@ -4,40 +4,60 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+//
+//  ProfileView.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
 
 import SwiftUI
 
 struct ProfileView: View {
     
+    @State private var navigateToSupportView = false
+    @State private var navigateToLoginView = false
+    
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(red: 245/255, green: 246/255, blue: 248/255)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        headerView
-                            .padding(.top, 18)
-                        
-                        profileSection
-                            .padding(.top, 28)
-                        
-                        settingsSection
-                            .padding(.top, 44)
-                        
-                        helpSection
-                            .padding(.top, 36)
-                        
-                        logoutButton
-                            .padding(.top, 40)
-                            .padding(.bottom, 120)
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Color(red: 245/255, green: 246/255, blue: 248/255)
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            headerView
+                                .padding(.top, 18)
+                            
+                            profileSection
+                                .padding(.top, 28)
+                            
+                            settingsSection
+                                .padding(.top, 44)
+                            
+                            helpSection
+                                .padding(.top, 36)
+                            
+                            logoutButton
+                                .padding(.top, 40)
+                                .padding(.bottom, 120)
+                            
+                            NavigationLink(destination: SupportView(), isActive: $navigateToSupportView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: LoginView(), isActive: $navigateToLoginView) {
+                                EmptyView()
+                            }
+                        }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
                 }
+                
+                bottomTabBar
             }
-            
-            bottomTabBar
+            .navigationBarBackButtonHidden(true)
         }
     }
     
@@ -123,9 +143,24 @@ struct ProfileView: View {
             sectionTitle("ACCOUNT SETTINGS")
             
             SettingsCardView(items: [
-                SettingsRowData(icon: "person", title: "Personal Info", iconTint: Color(red: 28/255, green: 221/255, blue: 211/255), iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)),
-                SettingsRowData(icon: "doc.text", title: "Health Records", iconTint: Color(red: 28/255, green: 221/255, blue: 211/255), iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)),
-                SettingsRowData(icon: "shield", title: "Insurance", iconTint: Color(red: 28/255, green: 221/255, blue: 211/255), iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255))
+                SettingsRowData(
+                    icon: "person",
+                    title: "Personal Info",
+                    iconTint: Color(red: 28/255, green: 221/255, blue: 211/255),
+                    iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
+                ),
+                SettingsRowData(
+                    icon: "doc.text",
+                    title: "Health Records",
+                    iconTint: Color(red: 28/255, green: 221/255, blue: 211/255),
+                    iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
+                ),
+                SettingsRowData(
+                    icon: "shield",
+                    title: "Insurance",
+                    iconTint: Color(red: 28/255, green: 221/255, blue: 211/255),
+                    iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
+                )
             ])
             .padding(.top, 14)
         }
@@ -135,11 +170,33 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 0) {
             sectionTitle("HELP & SUPPORT")
             
-            SettingsCardView(items: [
-                SettingsRowData(icon: "questionmark.square", title: "FAQ", iconTint: Color(red: 96/255, green: 108/255, blue: 128/255), iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255)),
-                SettingsRowData(icon: "phone.arrow.up.right", title: "Call Help Desk", iconTint: Color(red: 96/255, green: 108/255, blue: 128/255), iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255)),
-                SettingsRowData(icon: "message", title: "Message Support", iconTint: Color(red: 96/255, green: 108/255, blue: 128/255), iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255))
-            ])
+            SettingsCardView(
+                items: [
+                    SettingsRowData(
+                        icon: "questionmark.square",
+                        title: "FAQ",
+                        iconTint: Color(red: 96/255, green: 108/255, blue: 128/255),
+                        iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255)
+                    ),
+                    SettingsRowData(
+                        icon: "phone.arrow.up.right",
+                        title: "Call Help Desk",
+                        iconTint: Color(red: 96/255, green: 108/255, blue: 128/255),
+                        iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255)
+                    ),
+                    SettingsRowData(
+                        icon: "message",
+                        title: "Message Support",
+                        iconTint: Color(red: 96/255, green: 108/255, blue: 128/255),
+                        iconBackground: Color(red: 236/255, green: 240/255, blue: 245/255)
+                    )
+                ],
+                onTap: { title in
+                    if title == "Call Help Desk" {
+                        navigateToSupportView = true
+                    }
+                }
+            )
             .padding(.top, 14)
         }
     }
@@ -153,7 +210,9 @@ struct ProfileView: View {
     }
     
     private var logoutButton: some View {
-        Button(action: {}) {
+        Button(action: {
+            navigateToLoginView = true
+        }) {
             HStack(spacing: 10) {
                 Image(systemName: "arrow.right.square")
                     .font(.system(size: 22, weight: .semibold))
@@ -220,33 +279,40 @@ struct SettingsRowData {
 
 struct SettingsCardView: View {
     let items: [SettingsRowData]
+    var onTap: ((String) -> Void)? = nil
     
     var body: some View {
         VStack(spacing: 0) {
             ForEach(Array(items.enumerated()), id: \.offset) { index, item in
-                HStack(spacing: 16) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(item.iconBackground)
-                            .frame(width: 48, height: 48)
+                Button(action: {
+                    onTap?(item.title)
+                }) {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(item.iconBackground)
+                                .frame(width: 48, height: 48)
+                            
+                            Image(systemName: item.icon)
+                                .font(.system(size: 22, weight: .medium))
+                                .foregroundColor(item.iconTint)
+                        }
                         
-                        Image(systemName: item.icon)
-                            .font(.system(size: 22, weight: .medium))
-                            .foregroundColor(item.iconTint)
+                        Text(item.title)
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 192/255, green: 201/255, blue: 214/255))
                     }
-                    
-                    Text(item.title)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(Color(red: 192/255, green: 201/255, blue: 214/255))
+                    .padding(.horizontal, 18)
+                    .frame(height: 88)
+                    .contentShape(Rectangle())
                 }
-                .padding(.horizontal, 18)
-                .frame(height: 88)
+                .buttonStyle(.plain)
                 
                 if index < items.count - 1 {
                     Divider()
