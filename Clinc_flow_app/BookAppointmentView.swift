@@ -4,77 +4,101 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+//
+//  BookAppointmentView.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
 
 import SwiftUI
 
 struct BookAppointmentView: View {
+    
+    @State private var navigateToConsultationScreen = false
+    
     var body: some View {
-        GeometryReader { geo in
-            let screenWidth = geo.size.width
-            let horizontalPadding: CGFloat = 16
-            let contentWidth = screenWidth - (horizontalPadding * 2)
+        NavigationStack {
+            GeometryReader { geo in
+                let screenWidth = geo.size.width
+                let horizontalPadding: CGFloat = 16
+                let contentWidth = screenWidth - (horizontalPadding * 2)
 
-            ZStack {
-                Color(red: 245/255, green: 246/255, blue: 248/255)
-                    .ignoresSafeArea()
+                ZStack {
+                    Color(red: 245/255, green: 246/255, blue: 248/255)
+                        .ignoresSafeArea()
 
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        topBar
-                            .padding(.top, 14)
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            topBar
+                                .padding(.top, 14)
 
-                        Text("Book Appointment")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
-                            .padding(.top, 22)
+                            Text("Book Appointment")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                                .padding(.top, 22)
 
-                        searchBar
-                            .padding(.top, 22)
+                            searchBar
+                                .padding(.top, 22)
 
-                        categoriesHeader
-                            .padding(.top, 30)
+                            categoriesHeader
+                                .padding(.top, 30)
 
-                        categoriesSection(contentWidth: contentWidth)
+                            categoriesSection(contentWidth: contentWidth)
+                                .padding(.top, 18)
+
+                            doctorsHeader
+                                .padding(.top, 40)
+
+                            VStack(spacing: 16) {
+                                doctorCard(
+                                    imageName: "doctor_1",
+                                    name: "Dr. Aris Thorne",
+                                    subtitle: "Cardiologist • 8 yrs exp",
+                                    price: "$45 / consultation",
+                                    rating: "4.9",
+                                    imageBg: Color(red: 78/255, green: 156/255, blue: 167/255),
+                                    action: {}
+                                )
+
+                                doctorCard(
+                                    imageName: "doctor_consultation",
+                                    name: "Dr. Sarah Mitchell",
+                                    subtitle: "General Practitioner • 5 yrs exp",
+                                    price: "$30 / consultation",
+                                    rating: "4.8",
+                                    imageBg: Color(red: 63/255, green: 165/255, blue: 179/255),
+                                    action: {
+                                        navigateToConsultationScreen = true
+                                    }
+                                )
+
+                                doctorCard(
+                                    imageName: "doctor_3",
+                                    name: "Dr. Elena Rodriguez",
+                                    subtitle: "Pediatrician • 12 yrs exp",
+                                    price: "$50 / consultation",
+                                    rating: "5.0",
+                                    imageBg: Color(red: 202/255, green: 112/255, blue: 95/255),
+                                    action: {}
+                                )
+                            }
                             .padding(.top, 18)
+                            .padding(.bottom, 30)
 
-                        doctorsHeader
-                            .padding(.top, 40)
-
-                        VStack(spacing: 16) {
-                            doctorCard(
-                                imageName: "doctor_1",
-                                name: "Dr. Aris Thorne",
-                                subtitle: "Cardiologist • 8 yrs exp",
-                                price: "$45 / consultation",
-                                rating: "4.9",
-                                imageBg: Color(red: 78/255, green: 156/255, blue: 167/255)
-                            )
-
-                            doctorCard(
-                                imageName: "doctor_2",
-                                name: "Dr. Sarah Mitchell",
-                                subtitle: "General Practitioner • 5 yrs exp",
-                                price: "$30 / consultation",
-                                rating: "4.8",
-                                imageBg: Color(red: 63/255, green: 165/255, blue: 179/255)
-                            )
-
-                            doctorCard(
-                                imageName: "doctor_3",
-                                name: "Dr. Elena Rodriguez",
-                                subtitle: "Pediatrician • 12 yrs exp",
-                                price: "$50 / consultation",
-                                rating: "5.0",
-                                imageBg: Color(red: 202/255, green: 112/255, blue: 95/255)
-                            )
+                            NavigationLink(
+                                destination: ConsultationScreenView(),
+                                isActive: $navigateToConsultationScreen
+                            ) {
+                                EmptyView()
+                            }
                         }
-                        .padding(.top, 18)
-                        .padding(.bottom, 30)
+                        .padding(.horizontal, horizontalPadding)
+                        .frame(width: screenWidth, alignment: .leading)
                     }
-                    .padding(.horizontal, horizontalPadding)
-                    .frame(width: screenWidth, alignment: .leading)
                 }
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
 
@@ -228,7 +252,8 @@ struct BookAppointmentView: View {
         subtitle: String,
         price: String,
         rating: String,
-        imageBg: Color
+        imageBg: Color,
+        action: @escaping () -> Void
     ) -> some View {
         HStack(alignment: .center, spacing: 14) {
             ZStack {
@@ -278,7 +303,7 @@ struct BookAppointmentView: View {
 
                     Spacer()
 
-                    Button(action: {}) {
+                    Button(action: action) {
                         Text("Book")
                             .font(.system(size: 15, weight: .bold))
                             .foregroundColor(.black)
