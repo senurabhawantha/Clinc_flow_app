@@ -4,18 +4,13 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
-//
-//  BookAppointmentView.swift
-//  Clinc_flow_app
-//
-//  Created by ITEDP on 2026-03-12.
-//
 
 import SwiftUI
 
 struct BookAppointmentView: View {
     
     @State private var navigateToConsultationScreen = false
+    @State private var navigateToHome = false
     
     var body: some View {
         NavigationStack {
@@ -92,6 +87,13 @@ struct BookAppointmentView: View {
                             ) {
                                 EmptyView()
                             }
+                            
+                            NavigationLink(
+                                destination: Home(),
+                                isActive: $navigateToHome
+                            ) {
+                                EmptyView()
+                            }
                         }
                         .padding(.horizontal, horizontalPadding)
                         .frame(width: screenWidth, alignment: .leading)
@@ -104,16 +106,20 @@ struct BookAppointmentView: View {
 
     private var topBar: some View {
         HStack {
-            circularButton(icon: "arrow.left")
+            circularButton(icon: "arrow.left") {
+                navigateToHome = true
+            }
 
             Spacer()
 
-            circularButton(icon: "ellipsis")
+            circularButton(icon: "ellipsis") {
+                // Action
+            }
         }
     }
 
-    private func circularButton(icon: String) -> some View {
-        Button(action: {}) {
+    private func circularButton(icon: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
             ZStack {
                 Circle()
                     .fill(Color(red: 236/255, green: 239/255, blue: 244/255))

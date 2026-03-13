@@ -159,14 +159,14 @@ struct ProfileView: View {
                     iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
                 ),
                 SettingsRowData(
-                    icon: "doc.text",
+                    icon: "shield",
                     title: "Health Records",
                     iconTint: Color(red: 28/255, green: 221/255, blue: 211/255),
                     iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
                 ),
                 SettingsRowData(
-                    icon: "shield",
-                    title: "Insurance",
+                    icon: "doc.text",
+                    title: "Change Language",
                     iconTint: Color(red: 28/255, green: 221/255, blue: 211/255),
                     iconBackground: Color(red: 230/255, green: 246/255, blue: 243/255)
                 )
