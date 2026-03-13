@@ -278,7 +278,7 @@ struct CustomTabBar: View {
             )
             
             TabItem(
-                icon: "list.bullet.below.rectangle",
+                icon: "calendar",
                 label: "My Visit",
                 isSelected: true,
                 action: {}

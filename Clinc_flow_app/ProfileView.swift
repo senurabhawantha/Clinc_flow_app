@@ -4,12 +4,6 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
-//
-//  ProfileView.swift
-//  Clinc_flow_app
-//
-//  Created by ITEDP on 2026-03-12.
-//
 
 import SwiftUI
 
@@ -17,6 +11,9 @@ struct ProfileView: View {
     
     @State private var navigateToSupportView = false
     @State private var navigateToLoginView = false
+    @State private var navigateToHomeView = false
+    @State private var navigateToVisitsView = false
+    @State private var navigateToMapView = false
     
     var body: some View {
         NavigationStack {
@@ -48,6 +45,18 @@ struct ProfileView: View {
                             }
                             
                             NavigationLink(destination: LoginView(), isActive: $navigateToLoginView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: Home(), isActive: $navigateToHomeView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: MyVisitDashboardView(), isActive: $navigateToVisitsView) {
+                                EmptyView()
+                            }
+                            
+                            NavigationLink(destination: MapScreenView(), isActive: $navigateToMapView) {
                                 EmptyView()
                             }
                         }
@@ -234,13 +243,27 @@ struct ProfileView: View {
                 .overlay(Color(red: 228/255, green: 233/255, blue: 239/255))
             
             HStack {
-                tabItem(icon: "house", title: "Home", isSelected: false)
+                tabItem(icon: "house", title: "Home", isSelected: false) {
+                    navigateToHomeView = true
+                }
+                
                 Spacer()
-                tabItem(icon: "calendar", title: "Visits", isSelected: false)
+                
+                tabItem(icon: "calendar", title: "Visits", isSelected: false) {
+                    navigateToVisitsView = true
+                }
+                
                 Spacer()
-                tabItem(icon: "map", title: "Map", isSelected: false)
+                
+                tabItem(icon: "map", title: "Map", isSelected: false) {
+                    navigateToMapView = true
+                }
+                
                 Spacer()
-                tabItem(icon: "person.fill", title: "Profile", isSelected: true)
+                
+                tabItem(icon: "person.fill", title: "Profile", isSelected: true) {
+                    // already on Profile
+                }
             }
             .padding(.horizontal, 30)
             .padding(.top, 14)
@@ -249,24 +272,27 @@ struct ProfileView: View {
         }
     }
     
-    private func tabItem(icon: String, title: String, isSelected: Bool) -> some View {
-        VStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.system(size: 23, weight: .medium))
-                .foregroundColor(
-                    isSelected
-                    ? Color(red: 28/255, green: 221/255, blue: 211/255)
-                    : Color(red: 145/255, green: 158/255, blue: 181/255)
-                )
-            
-            Text(title)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundColor(
-                    isSelected
-                    ? Color(red: 28/255, green: 221/255, blue: 211/255)
-                    : Color(red: 145/255, green: 158/255, blue: 181/255)
-                )
+    private func tabItem(icon: String, title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 23, weight: .medium))
+                    .foregroundColor(
+                        isSelected
+                        ? Color(red: 28/255, green: 221/255, blue: 211/255)
+                        : Color(red: 145/255, green: 158/255, blue: 181/255)
+                    )
+                
+                Text(title)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(
+                        isSelected
+                        ? Color(red: 28/255, green: 221/255, blue: 211/255)
+                        : Color(red: 145/255, green: 158/255, blue: 181/255)
+                    )
+            }
         }
+        .buttonStyle(.plain)
     }
 }
 
