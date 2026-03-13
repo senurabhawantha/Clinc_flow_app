@@ -4,71 +4,79 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+
 import SwiftUI
 
 struct PaymentView: View {
     
+    @State private var navigateToHome = false
+    
     var body: some View {
-        ZStack {
-            Color(red: 245/255, green: 246/255, blue: 248/255)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                headerView
+        NavigationStack {
+            ZStack {
+                Color(red: 245/255, green: 246/255, blue: 248/255)
+                    .ignoresSafeArea()
                 
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Final Step")
-                            .font(.system(size: 34, weight: .bold))
-                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
-                            .padding(.top, 26)
-                        
-                        paymentCard
-                            .padding(.top, 26)
-                        
-                        Text("Services")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
-                            .padding(.top, 48)
-                        
-                        Divider()
-                            .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                VStack(spacing: 0) {
+                    headerView
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Final Step")
+                                .font(.system(size: 34, weight: .bold))
+                                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                                .padding(.top, 26)
+                            
+                            paymentCard
+                                .padding(.top, 26)
+                            
+                            Text("Services")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
+                                .padding(.top, 48)
+                            
+                            Divider()
+                                .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                                .padding(.top, 22)
+                            
+                            serviceRow(
+                                icon: "cross.case",
+                                title: "Consultation",
+                                amount: "$30.00"
+                            )
                             .padding(.top, 22)
-                        
-                        serviceRow(
-                            icon: "cross.case",
-                            title: "Consultation",
-                            amount: "$30.00"
-                        )
-                        .padding(.top, 22)
-                        
-                        Divider()
-                            .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                            
+                            Divider()
+                                .overlay(Color(red: 232/255, green: 236/255, blue: 242/255))
+                                .padding(.top, 22)
+                            
+                            serviceRow(
+                                icon: "testtube.2",
+                                title: "Lab Test",
+                                amount: "$15.00"
+                            )
                             .padding(.top, 22)
-                        
-                        serviceRow(
-                            icon: "testtube.2",
-                            title: "Lab Test",
-                            amount: "$15.00"
-                        )
-                        .padding(.top, 22)
-                        
-                        Spacer(minLength: 180)
+                            
+                            NavigationLink(destination: Home(), isActive: $navigateToHome) {
+                                EmptyView()
+                            }
+                            
+                            Spacer(minLength: 180)
+                        }
+                        .padding(.horizontal, 16)
                     }
-                    .padding(.horizontal, 16)
+                    
+                    bottomSection
                 }
-                
-                bottomSection
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
     
     private var headerView: some View {
         ZStack {
             HStack {
-                Button(action: {
-                    // Back action
-                }) {
+                Button(action: {}) {
                     Image(systemName: "arrow.left")
                         .font(.system(size: 24, weight: .medium))
                         .foregroundColor(Color(red: 10/255, green: 20/255, blue: 45/255))
@@ -156,7 +164,7 @@ struct PaymentView: View {
     private var bottomSection: some View {
         VStack(spacing: 0) {
             Button(action: {
-                // Apple Pay action
+                navigateToHome = true
             }) {
                 HStack(spacing: 10) {
                     Text("iOS")
@@ -171,12 +179,7 @@ struct PaymentView: View {
                 .frame(height: 72)
                 .background(Color(red: 8/255, green: 22/255, blue: 58/255))
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(
-                    color: Color.black.opacity(0.12),
-                    radius: 12,
-                    x: 0,
-                    y: 6
-                )
+                .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 6)
             }
             .padding(.horizontal, 26)
             .padding(.top, 12)
@@ -186,17 +189,7 @@ struct PaymentView: View {
                 .foregroundColor(Color(red: 150/255, green: 162/255, blue: 182/255))
                 .multilineTextAlignment(.center)
                 .padding(.top, 22)
-            
-            HStack {
-                Spacer()
-                
-                Text("Clinical Flow")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(Color(red: 218/255, green: 221/255, blue: 226/255))
-            }
-            .padding(.horizontal, 22)
-            .padding(.top, 6)
-            .padding(.bottom, 16)
+                .padding(.bottom, 20)
         }
         .background(Color(red: 245/255, green: 246/255, blue: 248/255))
     }

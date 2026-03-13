@@ -5,19 +5,14 @@
 //  Created by ITEDP on 2026-02-17.
 //
 
-//
-//  MyVisitView.swift
-//  Clinc_flow_app
-//
-//  Created by ITEDP on 2026-02-17.
-//
-
 import SwiftUI
 
 struct MyVisitDashboardView: View {
     
     @State private var navigateToQueueStatus = false
     @State private var navigateToMapScreen = false
+    @State private var navigateToHome = false
+    @State private var navigateToProfile = false
     
     var body: some View {
         NavigationStack {
@@ -29,6 +24,7 @@ struct MyVisitDashboardView: View {
                         HStack {
                             Text("My Visit")
                                 .font(.system(size: 34, weight: .bold))
+                            
                             Spacer()
                             
                             Image(systemName: "bell")
@@ -48,7 +44,10 @@ struct MyVisitDashboardView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             
                             HStack {
-                                Circle().fill(Color.cyan).frame(width: 10, height: 10)
+                                Circle()
+                                    .fill(Color.cyan)
+                                    .frame(width: 10, height: 10)
+                                
                                 Text("LIVE STATUS")
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundColor(.cyan)
@@ -58,6 +57,7 @@ struct MyVisitDashboardView: View {
                                 Text("Currently in")
                                     .foregroundColor(.gray)
                                     .font(.headline)
+                                
                                 Text("Registration Queue")
                                     .font(.title2)
                                     .fontWeight(.bold)
@@ -66,6 +66,7 @@ struct MyVisitDashboardView: View {
                             HStack(alignment: .firstTextBaseline, spacing: 8) {
                                 Text("18–25")
                                     .font(.system(size: 48, weight: .bold))
+                                
                                 Text("min wait")
                                     .font(.title3)
                                     .foregroundColor(.gray)
@@ -186,12 +187,36 @@ struct MyVisitDashboardView: View {
                         ) {
                             EmptyView()
                         }
+                        
+                        NavigationLink(
+                            destination: Home(),
+                            isActive: $navigateToHome
+                        ) {
+                            EmptyView()
+                        }
+                        
+                        NavigationLink(
+                            destination: ProfileView(),
+                            isActive: $navigateToProfile
+                        ) {
+                            EmptyView()
+                        }
                     }
                 }
                 .background(Color(white: 0.98))
                 
                 // MARK: - Custom Tab Bar
-                CustomTabBar()
+                CustomTabBar(
+                    onHomeTap: {
+                        navigateToHome = true
+                    },
+                    onMapTap: {
+                        navigateToMapScreen = true
+                    },
+                    onProfileTap: {
+                        navigateToProfile = true
+                    }
+                )
             }
             .navigationBarBackButtonHidden(true)
         }
@@ -239,12 +264,39 @@ struct TimelineItem: View {
 }
 
 struct CustomTabBar: View {
+    let onHomeTap: () -> Void
+    let onMapTap: () -> Void
+    let onProfileTap: () -> Void
+    
     var body: some View {
         HStack {
-            TabItem(icon: "house.fill", label: "Home", isSelected: false)
-            TabItem(icon: "list.bullet.below.rectangle", label: "My Visit", isSelected: true)
-            TabItem(icon: "map", label: "Map", isSelected: false)
-            TabItem(icon: "person.fill", label: "Profile", isSelected: false)
+            TabItem(
+                icon: "house.fill",
+                label: "Home",
+                isSelected: false,
+                action: onHomeTap
+            )
+            
+            TabItem(
+                icon: "list.bullet.below.rectangle",
+                label: "My Visit",
+                isSelected: true,
+                action: {}
+            )
+            
+            TabItem(
+                icon: "map",
+                label: "Map",
+                isSelected: false,
+                action: onMapTap
+            )
+            
+            TabItem(
+                icon: "person.fill",
+                label: "Profile",
+                isSelected: false,
+                action: onProfileTap
+            )
         }
         .padding(.top, 12)
         .padding(.bottom, 34)
@@ -257,17 +309,21 @@ struct TabItem: View {
     let icon: String
     let label: String
     let isSelected: Bool
+    let action: () -> Void
     
     var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: icon)
-                .font(.system(size: 20))
-            
-            Text(label)
-                .font(.caption2)
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                
+                Text(label)
+                    .font(.caption2)
+            }
+            .frame(maxWidth: .infinity)
+            .foregroundColor(isSelected ? .cyan : .gray)
         }
-        .frame(maxWidth: .infinity)
-        .foregroundColor(isSelected ? .cyan : .gray)
+        .buttonStyle(.plain)
     }
 }
 

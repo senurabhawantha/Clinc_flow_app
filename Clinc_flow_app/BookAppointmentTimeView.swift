@@ -10,6 +10,7 @@ struct BookAppointmentTimeView: View {
     
     @State private var selectedDateIndex: Int = 1
     @State private var selectedSlot: String = "10:00 AM"
+    @State private var navigateToConfirmBookingView = false
     
     private let dates: [(day: String, number: String)] = [
         ("MON", "12"),
@@ -30,128 +31,139 @@ struct BookAppointmentTimeView: View {
     ]
     
     var body: some View {
-        GeometryReader { geo in
-            let sidePadding: CGFloat = 28
-            let availableWidth = geo.size.width - (sidePadding * 2)
-            let dateSpacing: CGFloat = 16
-            let slotSpacing: CGFloat = 14
-            
-            let dateCardWidth = (availableWidth - (dateSpacing * 4)) / 5
-            let slotWidth = (availableWidth - (slotSpacing * 2)) / 3
-            
-            ZStack(alignment: .bottom) {
-                Color(
-                    red: 245/255,
-                    green: 246/255,
-                    blue: 248/255
-                )
-                .ignoresSafeArea()
+        NavigationStack {
+            GeometryReader { geo in
+                let sidePadding: CGFloat = 28
+                let availableWidth = geo.size.width - (sidePadding * 2)
+                let dateSpacing: CGFloat = 16
+                let slotSpacing: CGFloat = 14
                 
-                VStack(spacing: 0) {
-                    header
-                        .padding(.horizontal, sidePadding)
-                        .padding(.top, 10)
+                let dateCardWidth = (availableWidth - (dateSpacing * 4)) / 5
+                let slotWidth = (availableWidth - (slotSpacing * 2)) / 3
+                
+                ZStack(alignment: .bottom) {
+                    Color(
+                        red: 245/255,
+                        green: 246/255,
+                        blue: 248/255
+                    )
+                    .ignoresSafeArea()
                     
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 0) {
-                            
-                            Text("Pick a Time")
-                                .font(.system(size: 34, weight: .bold))
-                                .foregroundColor(Color(red: 7/255, green: 20/255, blue: 58/255))
-                                .padding(.top, 26)
-                            
-                            Text("Dr. Sarah Mitchell • General Practice")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(Color(red: 112/255, green: 128/255, blue: 156/255))
-                                .padding(.top, 8)
-                            
-                            HStack {
-                                Text("Select Date")
-                                    .font(.system(size: 21, weight: .bold))
+                    VStack(spacing: 0) {
+                        header
+                            .padding(.horizontal, sidePadding)
+                            .padding(.top, 10)
+                        
+                        ScrollView(showsIndicators: false) {
+                            VStack(alignment: .leading, spacing: 0) {
+                                
+                                Text("Pick a Time")
+                                    .font(.system(size: 34, weight: .bold))
                                     .foregroundColor(Color(red: 7/255, green: 20/255, blue: 58/255))
+                                    .padding(.top, 26)
                                 
-                                Spacer()
+                                Text("Dr. Sarah Mitchell • General Practice")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(Color(red: 112/255, green: 128/255, blue: 156/255))
+                                    .padding(.top, 8)
                                 
-                                Text("October 2023")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(Color(red: 31/255, green: 216/255, blue: 211/255))
-                            }
-                            .padding(.top, 46)
-                            
-                            HStack(spacing: dateSpacing) {
-                                ForEach(dates.indices, id: \.self) { index in
-                                    DateCardView(
-                                        day: dates[index].day,
-                                        number: dates[index].number,
-                                        isSelected: selectedDateIndex == index
-                                    )
-                                    .frame(width: dateCardWidth, height: 146)
-                                    .onTapGesture {
-                                        selectedDateIndex = index
+                                HStack {
+                                    Text("Select Date")
+                                        .font(.system(size: 21, weight: .bold))
+                                        .foregroundColor(Color(red: 7/255, green: 20/255, blue: 58/255))
+                                    
+                                    Spacer()
+                                    
+                                    Text("October 2023")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(Color(red: 31/255, green: 216/255, blue: 211/255))
+                                }
+                                .padding(.top, 46)
+                                
+                                HStack(spacing: dateSpacing) {
+                                    ForEach(dates.indices, id: \.self) { index in
+                                        DateCardView(
+                                            day: dates[index].day,
+                                            number: dates[index].number,
+                                            isSelected: selectedDateIndex == index
+                                        )
+                                        .frame(width: dateCardWidth, height: 146)
+                                        .onTapGesture {
+                                            selectedDateIndex = index
+                                        }
                                     }
                                 }
-                            }
-                            .padding(.top, 22)
-                            
-                            slotSectionTitle(icon: "sun.max.fill", title: "Morning Slots")
-                                .padding(.top, 46)
-                            
-                            LazyVGrid(
-                                columns: [
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing),
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing),
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing)
-                                ],
-                                spacing: 16
-                            ) {
-                                ForEach(morningSlots, id: \.self) { slot in
-                                    TimeSlotView(
-                                        title: slot,
-                                        isSelected: selectedSlot == slot,
-                                        isDisabled: slot == "11:00 AM"
-                                    )
-                                    .frame(width: slotWidth, height: 74)
-                                    .onTapGesture {
-                                        if slot != "11:00 AM" {
+                                .padding(.top, 22)
+                                
+                                slotSectionTitle(icon: "sun.max.fill", title: "Morning Slots")
+                                    .padding(.top, 46)
+                                
+                                LazyVGrid(
+                                    columns: [
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing),
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing),
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing)
+                                    ],
+                                    spacing: 16
+                                ) {
+                                    ForEach(morningSlots, id: \.self) { slot in
+                                        TimeSlotView(
+                                            title: slot,
+                                            isSelected: selectedSlot == slot,
+                                            isDisabled: slot == "11:00 AM"
+                                        )
+                                        .frame(width: slotWidth, height: 74)
+                                        .onTapGesture {
+                                            if slot != "11:00 AM" {
+                                                selectedSlot = slot
+                                            }
+                                        }
+                                    }
+                                }
+                                .padding(.top, 22)
+                                
+                                slotSectionTitle(icon: "moon.fill", title: "Afternoon Slots")
+                                    .padding(.top, 36)
+                                
+                                LazyVGrid(
+                                    columns: [
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing),
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing),
+                                        GridItem(.fixed(slotWidth), spacing: slotSpacing)
+                                    ],
+                                    spacing: 16
+                                ) {
+                                    ForEach(afternoonSlots, id: \.self) { slot in
+                                        TimeSlotView(
+                                            title: slot,
+                                            isSelected: selectedSlot == slot,
+                                            isDisabled: false
+                                        )
+                                        .frame(width: slotWidth, height: 74)
+                                        .onTapGesture {
                                             selectedSlot = slot
                                         }
                                     }
                                 }
-                            }
-                            .padding(.top, 22)
-                            
-                            slotSectionTitle(icon: "moon.fill", title: "Afternoon Slots")
-                                .padding(.top, 36)
-                            
-                            LazyVGrid(
-                                columns: [
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing),
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing),
-                                    GridItem(.fixed(slotWidth), spacing: slotSpacing)
-                                ],
-                                spacing: 16
-                            ) {
-                                ForEach(afternoonSlots, id: \.self) { slot in
-                                    TimeSlotView(
-                                        title: slot,
-                                        isSelected: selectedSlot == slot,
-                                        isDisabled: false
-                                    )
-                                    .frame(width: slotWidth, height: 74)
-                                    .onTapGesture {
-                                        selectedSlot = slot
-                                    }
+                                .padding(.top, 22)
+                                
+                                NavigationLink(
+                                    destination: ConfirmBookingView(),
+                                    isActive: $navigateToConfirmBookingView
+                                ) {
+                                    EmptyView()
                                 }
+                                
+                                .padding(.bottom, 220)
                             }
-                            .padding(.top, 22)
-                            .padding(.bottom, 220)
+                            .padding(.horizontal, sidePadding)
                         }
-                        .padding(.horizontal, sidePadding)
                     }
+                    
+                    bottomPanel
                 }
-                
-                bottomPanel
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
     
@@ -217,7 +229,9 @@ struct BookAppointmentTimeView: View {
                     }
                 }
                 
-                Button(action: {}) {
+                Button(action: {
+                    navigateToConfirmBookingView = true
+                }) {
                     Text("Confirm Slot")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(Color(red: 7/255, green: 20/255, blue: 58/255))
@@ -225,19 +239,25 @@ struct BookAppointmentTimeView: View {
                         .frame(height: 70)
                         .background(Color(red: 31/255, green: 216/255, blue: 211/255))
                         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-                        .shadow(color: Color(red: 31/255, green: 216/255, blue: 211/255).opacity(0.22),
-                                radius: 14, x: 0, y: 8)
+                        .shadow(
+                            color: Color(red: 31/255, green: 216/255, blue: 211/255).opacity(0.22),
+                            radius: 14,
+                            x: 0,
+                            y: 8
+                        )
                 }
                 .padding(.top, 24)
             }
             .padding(.horizontal, 28)
             .padding(.top, 18)
             .padding(.bottom, 18)
-            .background(Color(
-                red: 245/255,
-                green: 246/255,
-                blue: 248/255
-            ))
+            .background(
+                Color(
+                    red: 245/255,
+                    green: 246/255,
+                    blue: 248/255
+                )
+            )
         }
     }
 }

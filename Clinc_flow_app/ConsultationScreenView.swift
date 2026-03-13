@@ -4,6 +4,12 @@
 //
 //  Created by ITEDP on 2026-03-12.
 //
+//
+//  ConsultationScreenView.swift
+//  Clinc_flow_app
+//
+//  Created by ITEDP on 2026-03-12.
+//
 
 import SwiftUI
 
@@ -12,54 +18,65 @@ struct ConsultationScreenView: View {
     @State private var symptomListReady = false
     @State private var medicationsNoted = false
     @State private var idCardReady = false
+    @State private var navigateToBookAppointmentTimeView = false
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(red: 245/255, green: 246/255, blue: 248/255)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                headerView
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Color(red: 245/255, green: 246/255, blue: 248/255)
+                    .ignoresSafeArea()
                 
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        doctorCard
-                            .padding(.top, 20)
-                        
-                        sectionTitle("LOCATION DETAILS")
-                            .padding(.top, 28)
-                        
-                        locationCard
+                VStack(spacing: 0) {
+                    headerView
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            doctorCard
+                                .padding(.top, 20)
+                            
+                            sectionTitle("LOCATION DETAILS")
+                                .padding(.top, 28)
+                            
+                            locationCard
+                                .padding(.top, 14)
+                            
+                            sectionTitle("PRE-CONSULTATION CHECKLIST")
+                                .padding(.top, 34)
+                            
+                            checklistRow(
+                                title: "Have symptoms list ready",
+                                isChecked: $symptomListReady
+                            )
+                            .padding(.top, 16)
+                            
+                            checklistRow(
+                                title: "Note down current medications",
+                                isChecked: $medicationsNoted
+                            )
                             .padding(.top, 14)
-                        
-                        sectionTitle("PRE-CONSULTATION CHECKLIST")
-                            .padding(.top, 34)
-                        
-                        checklistRow(
-                            title: "Have symptoms list ready",
-                            isChecked: $symptomListReady
-                        )
-                        .padding(.top, 16)
-                        
-                        checklistRow(
-                            title: "Note down current medications",
-                            isChecked: $medicationsNoted
-                        )
-                        .padding(.top, 14)
-                        
-                        checklistRow(
-                            title: "ID card or medical insurance",
-                            isChecked: $idCardReady
-                        )
-                        .padding(.top, 14)
-                        
-                        Spacer(minLength: 140)
+                            
+                            checklistRow(
+                                title: "ID card or medical insurance",
+                                isChecked: $idCardReady
+                            )
+                            .padding(.top, 14)
+                            
+                            NavigationLink(
+                                destination: BookAppointmentTimeView(),
+                                isActive: $navigateToBookAppointmentTimeView
+                            ) {
+                                EmptyView()
+                            }
+                            
+                            Spacer(minLength: 140)
+                        }
+                        .padding(.horizontal, 14)
                     }
-                    .padding(.horizontal, 14)
                 }
+                
+                bottomButtonBar
             }
-            
-            bottomButtonBar
+            .navigationBarBackButtonHidden(true)
         }
     }
     
@@ -233,7 +250,7 @@ struct ConsultationScreenView: View {
                 .overlay(Color(red: 225/255, green: 232/255, blue: 238/255))
             
             Button(action: {
-                // check-in action
+                navigateToBookAppointmentTimeView = true
             }) {
                 HStack(spacing: 14) {
                     Image(systemName: "person.badge.plus")

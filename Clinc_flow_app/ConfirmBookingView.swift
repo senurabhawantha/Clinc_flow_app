@@ -2,30 +2,37 @@ import SwiftUI
 
 struct ConfirmBookingView: View {
     @State private var reasonForVisit: String = ""
+    @State private var navigateToPaymentView = false
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(hex: "#F3F4F6")
-                .ignoresSafeArea()
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Color(hex: "#F3F4F6")
+                    .ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 24) {
-                    headerView
-                    titleView
-                    appointmentCard
-                    reasonSection
-                    feeSection
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 24) {
+                        headerView
+                        titleView
+                        appointmentCard
+                        reasonSection
+                        feeSection
 
-                    // Extra spacing so bottom button doesn't cover content
-                    Spacer()
-                        .frame(height: 130)
+                        NavigationLink(destination: PaymentView(), isActive: $navigateToPaymentView) {
+                            EmptyView()
+                        }
+
+                        Spacer()
+                            .frame(height: 130)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 12)
-                .padding(.bottom, 20)
-            }
 
-            bottomBar
+                bottomBar
+            }
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -48,7 +55,6 @@ extension ConfirmBookingView {
 
             Spacer()
 
-            // keeps title centered
             Color.clear
                 .frame(width: 24, height: 24)
         }
@@ -79,7 +85,6 @@ extension ConfirmBookingView {
 
     private var imageSection: some View {
         ZStack(alignment: .bottomLeading) {
-            // Replace with your asset image
             Image("clinic_image")
                 .resizable()
                 .scaledToFill()
@@ -130,7 +135,7 @@ extension ConfirmBookingView {
 
     private var doctorSection: some View {
         HStack(spacing: 14) {
-            Image("doctor_image")
+            Image("doctor_consultation")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 52, height: 52)
@@ -276,7 +281,7 @@ extension ConfirmBookingView {
                 .background(Color(hex: "#DDE3EB"))
 
             Button(action: {
-                print("Book Now tapped")
+                navigateToPaymentView = true
             }) {
                 HStack(spacing: 10) {
                     Spacer()

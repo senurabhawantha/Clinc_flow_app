@@ -35,9 +35,11 @@ struct Home: View {
                                             .fill(Color(red: 0.95, green: 0.78, blue: 0.67))
                                             .frame(width: 56, height: 56)
                                         
-                                        Image(systemName: "doc.text.fill")
-                                            .font(.system(size: 22))
-                                            .foregroundColor(.white)
+                                        Image("profile_avatar")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 56, height: 56)
+                                            .clipShape(Circle())
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 2) {
